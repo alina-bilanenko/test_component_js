@@ -1,67 +1,63 @@
+const colRow = 4;
+const colColumn = 4;
+let state = {
+  hideButtonsTimeoutCol: null,
+  hideButtonsTimeoutRow: null
+};
 
-window.onload = () => {
-  const colRow = 4;
-  const colColumn = 4;
-  let state = {
-    hideButtonsTimeoutCol: null,
-    hideButtonsTimeoutRow: null
-  };
+let mainDiv = document.querySelector('div[data-dynamic-table]');
 
-  let mainDiv = document.querySelector('div[data-dynamic-table]');
+let table = document.createElement('table');
+table.id = 'table';
+mainDiv.appendChild(table);
+let tblBody = document.createElement("tbody");
+table.appendChild(tblBody);
 
-  let table = document.createElement('table');
-  table.id = 'table';
-  mainDiv.appendChild(table);
-  let tblBody = document.createElement("tbody");
-  table.appendChild(tblBody);
+for (let i = 0; i < colRow; i++) {
+  let row = document.createElement("tr");
 
-  for (let i = 0; i < colRow; i++) {
-    let row = document.createElement("tr");
-
-    for (let j = 0; j < colColumn; j++) {
-      let cell = document.createElement("td");
-      row.appendChild(cell);
-    }
-
-    tblBody.appendChild(row);
+  for (let j = 0; j < colColumn; j++) {
+    let cell = document.createElement("td");
+    row.appendChild(cell);
   }
 
-  table.addEventListener("mouseover", (e) => showDeleteButton(e, state));
-  table.addEventListener("mouseout", (e) => tableMouseOut(e, state));
+  tblBody.appendChild(row);
+}
 
-  let addRowDiv = document.createElement('div');
-  let textAddRow = document.createTextNode("+");
-  addRowDiv.appendChild(textAddRow);
-  mainDiv.appendChild(addRowDiv);
-  addRowDiv.classList.add('plus-row');
-  addRowDiv.addEventListener( "click" , clickButton);
+table.addEventListener("mouseover", (e) => showDeleteButton(e, state));
+table.addEventListener("mouseout", (e) => tableMouseOut(e, state));
 
-  let addColDiv = document.createElement('div');
-  let textAddCol = document.createTextNode("+");
-  addColDiv.appendChild(textAddCol);
-  mainDiv.appendChild(addColDiv);
-  addColDiv.classList.add('plus-col');
-  addColDiv.addEventListener( "click" , clickButton);
+let addRowDiv = document.createElement('div');
+let textAddRow = document.createTextNode("+");
+addRowDiv.appendChild(textAddRow);
+mainDiv.appendChild(addRowDiv);
+addRowDiv.classList.add('plus-row');
+addRowDiv.addEventListener( "click" , clickButton);
 
-  let deleteColDiv = document.createElement('div');
-  let textDeleteCol = document.createTextNode("-");
-  deleteColDiv.appendChild(textDeleteCol);
-  mainDiv.appendChild(deleteColDiv);
-  deleteColDiv.classList.add('del-col');
-  deleteColDiv.addEventListener( "click" , clickButton);
-  deleteColDiv.addEventListener("mouseover", (e) => divColMouseOver(e, state));
-  deleteColDiv.addEventListener("mouseout", (e) => divColMouseOut(e, state));
+let addColDiv = document.createElement('div');
+let textAddCol = document.createTextNode("+");
+addColDiv.appendChild(textAddCol);
+mainDiv.appendChild(addColDiv);
+addColDiv.classList.add('plus-col');
+addColDiv.addEventListener( "click" , clickButton);
 
-  let deleteRowDiv = document.createElement('div');
-  let textDeleteRow = document.createTextNode("-");
-  deleteRowDiv.appendChild(textDeleteRow);
-  mainDiv.appendChild(deleteRowDiv);
-  deleteRowDiv.classList.add('del-row');
-  deleteRowDiv.addEventListener( "click" , clickButton);
-  deleteRowDiv.addEventListener("mouseover",(e) => divRowMouseOver(e, state));
-  deleteRowDiv.addEventListener("mouseout", (e) => divRowMouseOut(e, state));
+let deleteColDiv = document.createElement('div');
+let textDeleteCol = document.createTextNode("-");
+deleteColDiv.appendChild(textDeleteCol);
+mainDiv.appendChild(deleteColDiv);
+deleteColDiv.classList.add('del-col');
+deleteColDiv.addEventListener( "click" , clickButton);
+deleteColDiv.addEventListener("mouseover", (e) => divColMouseOver(e, state));
+deleteColDiv.addEventListener("mouseout", (e) => divColMouseOut(e, state));
 
-};
+let deleteRowDiv = document.createElement('div');
+let textDeleteRow = document.createTextNode("-");
+deleteRowDiv.appendChild(textDeleteRow);
+mainDiv.appendChild(deleteRowDiv);
+deleteRowDiv.classList.add('del-row');
+deleteRowDiv.addEventListener( "click" , clickButton);
+deleteRowDiv.addEventListener("mouseover",(e) => divRowMouseOver(e, state));
+deleteRowDiv.addEventListener("mouseout", (e) => divRowMouseOut(e, state));
 
 function clickButton(event) {
   let elem = event.target;
@@ -144,11 +140,11 @@ function deleteRowCol(event, className) {
     }
   }
 
-  if(kolRows <= 1) {
+  if(document.getElementById('table').rows.length <= 1) {
     Object.assign(row.style, { opacity: '0', visibility: 'hidden' });
   }
 
-  if(kolColumns <= 1) {
+  if(document.getElementById('table').rows[0].cells.length <= 1) {
     Object.assign(col.style, { opacity: '0', visibility: 'hidden' });
   }
 }
@@ -189,7 +185,7 @@ function tableMouseOut(event, state) {
   let row = document.querySelector('.del-row');
   let col = document.querySelector('.del-col');
 
-  if(!event.relatedTarget && event.relatedTarget.tagName !== 'DIV') return;
+  if(!event.relatedTarget || event.relatedTarget.tagName !== 'DIV') return;
 
   state.hideButtonsTimeoutRow = setTimeout(() => {
     Object.assign(row.style, { opacity: '0', visibility: 'hidden' });
@@ -243,4 +239,3 @@ function divRowMouseOut(event, state) {
     Object.assign(row.style, { opacity:'0', visibility: 'hidden' });
   }, 500)
 }
-
