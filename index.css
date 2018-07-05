@@ -1,0 +1,81 @@
+.container {
+  display: inline-block;
+  position: relative;
+  padding: 54px;
+  margin: 10px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #FFFFFF;
+  line-height: 50px;
+}
+
+#table {
+  border: 2px solid #47aae7;
+  border-collapse: separate;
+  border-spacing: 2px;
+  table-layout: fixed;
+  cursor: default;
+}
+
+#table td {
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: #47aae7;
+}
+
+.container .plus-col,
+.container .plus-row {
+  display: block;
+  background-color: #f3a62f;
+  height: 50px;
+  width: 50px;
+  margin: 2px;
+  position:absolute;
+  cursor: pointer;
+  transition: background-color 1s ease;
+}
+
+.container .plus-col {
+  right: 0;
+  top: 57px;
+}
+
+.container .plus-col:hover,
+.container .plus-row:hover {
+  background-color: #f6c052;
+}
+
+.container .del-row:hover,
+.container .del-col:hover {
+  background-color: #ca4c49;
+}
+
+.container .del-row,
+.container .del-col {
+  background-color: #b33122;
+  height: 50px;
+  width: 50px;
+  margin: 2px;
+  position:absolute;
+  visibility: hidden;
+  opacity: 1;
+  cursor: pointer;
+  transition: background-color 1s ease,
+              opacity 0.3s ease-in-out,
+              top 0.5s ease,
+              left 0.5s ease,
+              visibility 0.3s ease-in-out;
+}
+
+.container .del-row {
+  left: 0;
+}
+
+.container .del-col {
+  top: 0;
+}
