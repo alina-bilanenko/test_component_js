@@ -1,16 +1,17 @@
 const colRow = 4;
 const colColumn = 4;
+
 let state = {
   hideButtonsTimeoutCol: null,
   hideButtonsTimeoutRow: null
 };
 
 let mainDiv = document.querySelector('div[data-dynamic-table]');
-
 let table = document.createElement('table');
+let tblBody = document.createElement("tbody");
+
 table.id = 'table';
 mainDiv.appendChild(table);
-let tblBody = document.createElement("tbody");
 table.appendChild(tblBody);
 
 for (let i = 0; i < colRow; i++) {
@@ -29,42 +30,37 @@ table.addEventListener("mouseout", (e) => tableMouseOut(e, state));
 
 let addRowDiv = document.createElement('div');
 let textAddRow = document.createTextNode("+");
-addRowDiv.appendChild(textAddRow);
-mainDiv.appendChild(addRowDiv);
-addRowDiv.classList.add('plus-row');
-addRowDiv.addEventListener( "click" , clickButton);
+createDiv(addRowDiv, textAddRow, 'plus-row');
 
 let addColDiv = document.createElement('div');
 let textAddCol = document.createTextNode("+");
-addColDiv.appendChild(textAddCol);
-mainDiv.appendChild(addColDiv);
-addColDiv.classList.add('plus-col');
-addColDiv.addEventListener( "click" , clickButton);
+createDiv(addColDiv, textAddCol, 'plus-col');
 
 let deleteColDiv = document.createElement('div');
 let textDeleteCol = document.createTextNode("-");
-deleteColDiv.appendChild(textDeleteCol);
-mainDiv.appendChild(deleteColDiv);
-deleteColDiv.classList.add('del-col');
-deleteColDiv.addEventListener( "click" , clickButton);
+createDiv(deleteColDiv, textDeleteCol, 'del-col');
 deleteColDiv.addEventListener("mouseover", (e) => divColMouseOver(e, state));
 deleteColDiv.addEventListener("mouseout", (e) => divColMouseOut(e, state));
 
 let deleteRowDiv = document.createElement('div');
 let textDeleteRow = document.createTextNode("-");
-deleteRowDiv.appendChild(textDeleteRow);
-mainDiv.appendChild(deleteRowDiv);
-deleteRowDiv.classList.add('del-row');
-deleteRowDiv.addEventListener( "click" , clickButton);
+createDiv(deleteRowDiv, textDeleteRow, 'del-row');
 deleteRowDiv.addEventListener("mouseover",(e) => divRowMouseOver(e, state));
 deleteRowDiv.addEventListener("mouseout", (e) => divRowMouseOut(e, state));
+
+function createDiv(elem, text, className) {
+  elem.appendChild(text);
+  document.querySelector('div[data-dynamic-table]').appendChild(elem);
+  elem.classList.add(className);
+  elem.addEventListener( "click" , clickButton);
+}
 
 function clickButton(event) {
   let elem = event.target;
   if (elem.tagName !== 'DIV') return;
 
   if(elem.classList.contains('plus-row')) {
-    addString();
+    addRow();
   }
 
   if(elem.classList.contains('plus-col')) {
@@ -89,7 +85,7 @@ function addColumn() {
 
 }
 
-function addString() {
+function addRow() {
   let table = document.getElementById('table');
   let colColumns = table.rows[0].cells.length;
   let tableBody = document.querySelector('#table > tbody');
@@ -139,6 +135,10 @@ function deleteRowCol(event, className) {
       row.setAttribute('data-delete-row', (rowInd-1).toString());
     }
   }
+  chekedVisible(row, col);
+}
+
+function chekedVisible(row, col) {
 
   if(document.getElementById('table').rows.length <= 1) {
     Object.assign(row.style, { opacity: '0', visibility: 'hidden' });
@@ -162,13 +162,7 @@ function showDeleteButton(event, state) {
   let rowInd = elem.parentElement.rowIndex;
   let cellInd = elem.cellIndex;
 
-  if (kolRows <= 1) {
-    Object.assign(row.style, { opacity: '0', visibility: 'hidden' });
-  }
-
-  if (kolColumns <= 1) {
-    Object.assign(col.style, { opacity: '0', visibility: 'hidden' });
-  }
+  chekedVisible(row, col);
 
   if((cellInd || cellInd === 0) && kolColumns > 1){
     Object.assign(col.style, { left: cellInd*54 + 54 + 'px', opacity: '1', visibility: 'visible' });
@@ -200,14 +194,19 @@ function divColMouseOver(e, state) {
   let col = document.querySelector('.del-col');
   let table = document.getElementById('table');
   let kolColumns = table.rows[0].cells.length;
+  let styleButtons = {
+    opacity:'0',
+    visibility: 'hidden'
+  };
 
   clearTimeout(state.hideButtonsTimeoutCol);
 
   if(kolColumns > 1) {
-    Object.assign(col.style, { opacity:'1', visibility: 'visible' });
-  } else {
-    Object.assign(col.style, { opacity:'0', visibility: 'hidden' });
+    styleButtons.opacity = '1';
+    styleButtons.visibility = 'visible';
   }
+
+  Object.assign(col.style, styleButtons);
 }
 
 function divColMouseOut(event, state) {
@@ -222,14 +221,19 @@ function divRowMouseOver(e, state) {
   let row = document.querySelector('.del-row');
   let table = document.getElementById('table');
   let kolRows = table.rows.length;
+  let styleButtons = {
+    opacity:'0',
+    visibility: 'hidden'
+  };
 
   clearTimeout(state.hideButtonsTimeoutRow);
 
-  if(kolRows > 1){
-    Object.assign(row.style, { opacity:'1', visibility: 'visible' });
-  } else {
-    Object.assign(row.style, { opacity:'0', visibility: 'hidden' });
+  if(kolRows > 1) {
+    styleButtons.opacity = '1';
+    styleButtons.visibility = 'visible';
   }
+
+  Object.assign(row.style, styleButtons);
 }
 
 function divRowMouseOut(event, state) {
