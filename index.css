@@ -26,6 +26,7 @@
   min-width: 50px;
   min-height: 50px;
   background-color: #47aae7;
+  padding: 0;
 }
 
 .container .plus-col,
@@ -34,15 +35,16 @@
   background-color: #f3a62f;
   height: 50px;
   width: 50px;
-  margin: 2px;
+  margin: 2px 2px 2px 4px;
   position:absolute;
   cursor: pointer;
   transition: background-color 1s ease;
 }
 
 .container .plus-col {
+  margin: 4px 2px 2px 2px;
   right: 0;
-  top: 57px;
+  top: 54px;
 }
 
 .container .plus-col:hover,
@@ -73,9 +75,11 @@
 }
 
 .container .del-row {
+  margin-top: 4px;
   left: 0;
 }
 
 .container .del-col {
+  margin-left: 4px;
   top: 0;
 }
