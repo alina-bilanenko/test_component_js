@@ -3,13 +3,6 @@
   position: relative;
   padding: 54px;
   margin: 10px;
-  text-align: center;
-  vertical-align: middle;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 24px;
-  color: #FFFFFF;
-  line-height: 50px;
 }
 
 #table {
@@ -18,6 +11,7 @@
   border-spacing: 2px;
   table-layout: fixed;
   cursor: default;
+  /*margin: 54px;*/
 }
 
 #table td {
@@ -29,57 +23,81 @@
   padding: 0;
 }
 
-.container .plus-col,
-.container .plus-row {
+.button {
   display: block;
-  background-color: #f3a62f;
-  height: 50px;
-  width: 50px;
-  margin: 2px 2px 2px 4px;
-  position:absolute;
+  height: 54px;
+  width: 54px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #FFFFFF;
+  position: absolute;
   cursor: pointer;
   transition: background-color 1s ease;
+  text-align: center;
+  vertical-align: middle;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #FFFFFF;
+  line-height: 50px;
 }
 
-.container .plus-col {
-  margin: 4px 2px 2px 2px;
+.button:focus {
+  outline: none;
+}
+
+.button.add-column,
+.button.add-row {
+   background-color: #f3a62f;
+}
+
+.button.add-row {
+  margin-left: 2px;
+}
+
+.button.add-column {
+  margin-top: 2px;
   right: 0;
   top: 54px;
 }
 
-.container .plus-col:hover,
-.container .plus-row:hover {
+.button.add-column:hover,
+.button.add-row:hover {
   background-color: #f6c052;
 }
 
-.container .del-row:hover,
-.container .del-col:hover {
-  background-color: #ca4c49;
-}
-
-.container .del-row,
-.container .del-col {
+.button.remove-row,
+.button.remove-column {
   background-color: #b33122;
-  height: 50px;
-  width: 50px;
-  margin: 2px;
-  position:absolute;
   visibility: hidden;
-  opacity: 1;
-  cursor: pointer;
-  transition: background-color 1s ease,
-              opacity 0.3s ease-in-out,
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out,
               top 0.5s ease,
               left 0.5s ease,
               visibility 0.3s ease-in-out;
 }
 
-.container .del-row {
-  margin-top: 4px;
+.button.remove-row {
   left: 0;
 }
 
-.container .del-col {
-  margin-left: 4px;
+.button.remove-column {
   top: 0;
+}
+
+.button.remove-row:hover,
+.button.remove-column:hover {
+  background-color: #ca4c49;
+}
+
+.button.remove-row.visibility:hover,
+.button.remove-column.visibility:hover {
+  opacity: 1;
+  visibility: visible;
+}
+
+#table:hover ~ .button.remove-column.visibility,
+#table:hover ~ .button.remove-row.visibility {
+  opacity: 1;
+  visibility: visible;
 }

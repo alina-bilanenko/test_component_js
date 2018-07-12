@@ -1,5 +1,5 @@
 import DynamicTable from './dynamic-table.js'
 
-let myDynamicTable = new DynamicTable({ row: 4, column: 4 });
+let myDynamicTable = new DynamicTable({ rowsAmount: 4, columnsAmount: 4 });
 
 myDynamicTable.initialize();
